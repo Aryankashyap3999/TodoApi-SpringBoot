@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController // from this annotation u can tell program this class will be controller of this project, controller is like an entry point.
+@RequestMapping("/api/v1/todos/")
 public class TodoController {
 
     private static List<Todo> todoList;
@@ -19,19 +20,19 @@ public class TodoController {
         todoList.add(new Todo(2,2,"Todo 2", true));
     }
 
-    @GetMapping("/todos")
+    @GetMapping
     public ResponseEntity<List<Todo>> getTodos() {
         return ResponseEntity.ok(todoList);
     }
 
-    @PostMapping("/todos")
+    @PostMapping
 //    @ResponseStatus(HttpStatus.CREATED) you can use it for status code
     public ResponseEntity<Todo> createTodo(@RequestBody Todo newTodo) {
         todoList.add(newTodo);
         return ResponseEntity.status(HttpStatus.CREATED).body(newTodo);
     }
 
-    @GetMapping("/todos/{todoId}")
+    @GetMapping("{todoId}")
     public ResponseEntity<Todo> getTodo (@PathVariable Long todoId) {
         for(Todo todo : todoList) {
             if(todo.getId() == todoId) {
